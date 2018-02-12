@@ -23,7 +23,7 @@ GLuint LoadTexture(const char *filePath) {
     unsigned char* image = stbi_load(filePath, &w, &h, &comp, STBI_rgb_alpha);
     if(image == NULL) {
         std::cout << "Unable to load image. Make sure the path is correct\n";
-        assert(false);
+        //assert(false);
     }
     GLuint retTexture;
     glGenTextures(1, &retTexture);
@@ -57,45 +57,46 @@ int main(int argc, char *argv[])
     Matrix viewMatrix4;
     
     program3.Load(RESOURCE_FOLDER "vertex_textured.glsl", RESOURCE_FOLDER"fragment_textured.glsl");
-    GLuint guitarTexture = LoadTexture(RESOURCE_FOLDER "guitar.jpg");
+    GLuint guitarTexture = LoadTexture(RESOURCE_FOLDER "guitar.png");
     Matrix projectionMatrix3;
     Matrix modelMatrix3;
     Matrix viewMatrix3;
     
     
     program1.Load(RESOURCE_FOLDER"vertex.glsl", RESOURCE_FOLDER"fragment.glsl");
-    program2.Load(RESOURCE_FOLDER "vertex_textured.glsl", RESOURCE_FOLDER"fragment_textured.glsl");
+    Matrix projectionMatrix1;
+    Matrix modelMatrix1;
+    Matrix viewMatrix1;
+    
     GLuint mariachiTexture = LoadTexture(RESOURCE_FOLDER "mariachi.jpg");
     
-    Matrix projectionMatrix;
-    Matrix modelMatrix;
-    Matrix viewMatrix;
-    projectionMatrix.SetOrthoProjection(-3.55, 3.55, -2.0f, 2.0f, -1.0f, 1.0f);
-    glUseProgram(program2.programID);
-    Matrix projectionMatrix1;
+    program2.Load(RESOURCE_FOLDER "vertex_textured.glsl", RESOURCE_FOLDER"fragment_textured.glsl");
     Matrix projectionMatrix2;
-    
-    Matrix viewMatrix1;
+    Matrix modelMatrix2;
     Matrix viewMatrix2;
     
     projectionMatrix1.SetOrthoProjection(-3.55, 3.55, -2.0f, 2.0f, -1.0f, 1.0f);
-    projectionMatrix2.SetOrthoProjection(-3.55, 3.55, -2.0f, 2.0f, -1.0f, 1.0f);
     glUseProgram(program1.programID);
-    Matrix modelMatrix1;
+    
+    projectionMatrix2.SetOrthoProjection(-3.55, 3.55, -2.0f, 2.0f, -1.0f, 1.0f);
+    glUseProgram(program2.programID);
+    
+    
+    
     modelMatrix1.Translate(2.0f, 0.0f, 0.0f);
     program1.SetModelMatrix(modelMatrix1);
-    // draw first object
-    Matrix modelMatrix2;
+   
     
     modelMatrix2.Translate(-2.0f, 0.0f, 0.0f);
     program1.SetModelMatrix(modelMatrix2);
-    float lastFrameTicks = 0.0f;
+    
     
     modelMatrix3.Translate(0.0f,-2.0f,0.0f);
     modelMatrix4.Translate(0.0f,2.0f,0.0f);
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    float lastFrameTicks = 0.0f;
     
     
     SDL_Event event;
@@ -123,7 +124,7 @@ int main(int argc, char *argv[])
         glDisableVertexAttribArray(program1.positionAttribute);
         
         //std::cout<<pow(alternator,3);
-        modelMatrix1.Translate((cos(3.1415826f/2 * elapsed))*2.0f/((100000/elapsed)), 0.0f, 0.0f);
+        modelMatrix1.Translate((cos(3.1415826f/2 * elapsed))*2.0f/((10/elapsed)), 0.0f, 0.0f);
         
         program1.SetModelMatrix(modelMatrix2);
         program1.SetProjectionMatrix(projectionMatrix2);
@@ -155,9 +156,9 @@ int main(int argc, char *argv[])
         glDisableVertexAttribArray(program3.positionAttribute);
         glDisableVertexAttribArray(program3.texCoordAttribute);
         
-        program2.SetModelMatrix(modelMatrix);
-        program2.SetProjectionMatrix(projectionMatrix);
-        program2.SetViewMatrix(viewMatrix);
+        program2.SetModelMatrix(modelMatrix4);
+        program2.SetProjectionMatrix(projectionMatrix4);
+        program2.SetViewMatrix(viewMatrix4);
         
         glBindTexture(GL_TEXTURE_2D, emojiTexture);
         
