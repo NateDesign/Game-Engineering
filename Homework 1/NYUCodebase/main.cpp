@@ -48,9 +48,16 @@ int main(int argc, char *argv[])
     ShaderProgram program1;
     ShaderProgram program2;
     ShaderProgram program3;
+    ShaderProgram program4;
+    
+    program4.Load(RESOURCE_FOLDER "vertex_textured.glsl", RESOURCE_FOLDER"fragment_textured.glsl");
+    GLuint emojiTexture = LoadTexture(RESOURCE_FOLDER "emoji.jpg");
+    Matrix projectionMatrix4;
+    Matrix modelMatrix4;
+    Matrix viewMatrix4;
     
     program3.Load(RESOURCE_FOLDER "vertex_textured.glsl", RESOURCE_FOLDER"fragment_textured.glsl");
-    GLuint emojiTexture = LoadTexture(RESOURCE_FOLDER "emoji.jpg");
+    GLuint guitarTexture = LoadTexture(RESOURCE_FOLDER "guitar.jpg");
     Matrix projectionMatrix3;
     Matrix modelMatrix3;
     Matrix viewMatrix3;
@@ -85,6 +92,7 @@ int main(int argc, char *argv[])
     float lastFrameTicks = 0.0f;
     
     modelMatrix3.Translate(0.0f,-2.0f,0.0f);
+    modelMatrix4.Translate(0.0f,2.0f,0.0f);
     
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -163,6 +171,20 @@ int main(int argc, char *argv[])
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glDisableVertexAttribArray(program2.positionAttribute);
         glDisableVertexAttribArray(program2.texCoordAttribute);
+        
+        glBindTexture(GL_TEXTURE_2D, guitarTexture);
+        
+        float vertices4[] = {-1, -1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 1};
+        
+        glVertexAttribPointer(program4.positionAttribute, 2, GL_FLOAT, false, 0, vertices4);
+        glEnableVertexAttribArray(program4.positionAttribute);
+        float texCoords2[] = {0.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0};
+        glVertexAttribPointer(program4.texCoordAttribute, 2, GL_FLOAT, false, 0, texCoords2);
+        glEnableVertexAttribArray(program4.texCoordAttribute);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDisableVertexAttribArray(program4.positionAttribute);
+        glDisableVertexAttribArray(program4.texCoordAttribute);
+
         
         
         lastFrameTicks = ticks;
