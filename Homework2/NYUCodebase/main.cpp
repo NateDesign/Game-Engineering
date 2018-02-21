@@ -54,8 +54,8 @@ void PreGameLoop(){
 
 	GLuint paddle = LoadTexture("paddle.png");
 	GLuint ballPic = LoadTexture("ball.png");
-	GLuint leftWins = LoadTexture("left_wins.png");
-	GLuint rightWins = LoadTexture("right_wins.png");
+	GLuint leftWins = LoadTexture("left.png");
+	GLuint rightWins = LoadTexture("right.png");
 
 	ball = new Thing(ballPic, 0.0f, 0.0f, 0.0f, 0.1f, 0.1f);
 	paddle1 = new Thing(paddle,1.2f,0.0f,90.0f,0.1f,0.4f);
